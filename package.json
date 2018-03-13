@@ -1,6 +1,6 @@
 {
   "name": "node_demo",
-  "version": "3.12.6",
+  "version": "4.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
