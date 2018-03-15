@@ -1,6 +1,6 @@
 {
     "name": "node_demo",
-    "version": "8.0.1",
+    "version": "9.0.1",
     "description": "",
     "main": "app.js",
     "scripts": {
