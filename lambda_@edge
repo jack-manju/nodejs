@@ -1,0 +1,34 @@
+'use strict';
+
+exports.handler = (event, context, callback) => {
+    let response = event.Records[0].cf.response;
+    let request = event.Records[0].cf.request;
+    let querystring = require('querystring');
+    let headers = request.headers;
+    let params = querystring.parse(request.querystring);
+    let parsedCookie = {};
+    if (headers.cookie) {
+        headers.cookie[0].value.split(';').forEach((cookie) => {
+            if (cookie) {
+                let parts = cookie.split('=');
+                parsedCookie[parts[0].trim()] = parts[1].trim();
+            }
+        });
+    }
+    if (params.preview){
+        if(params.preview === 'true'){
+            console.log(params.preview);
+            response.headers['cache-control'] = [{key: 'Cache-Control', value: 'no-store'}]; 
+            callback(null,response);
+        }
+    }
+    if(parsedCookie){
+        for(var key in parsedCookie){
+            if(key.match(/wordpress-log-in-*/)){
+                console.log(key);
+                response.headers['cache-control'] = [{key: 'Cache-Control', value: 'no-store'}];
+            }
+        }
+    }
+    callback(null,response);
+};
